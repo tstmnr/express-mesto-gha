@@ -14,7 +14,13 @@ module.exports.createCard= (req, res) => {
   const owner = req.user._id;
 
   Card.create({ name, link, owner })
-    .then((card) => res.send(card))
+    .then((card) => {
+      if (card) {
+        return res.send(card);
+      }
+
+      res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании карточки' });
