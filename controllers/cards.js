@@ -47,7 +47,13 @@ module.exports.likeCard = (req, res) => {
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true })
-    .then()
+    .then((card) => {
+      if (card) {
+        return res.send(card);
+      }
+
+      res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные для постановки/снятии лайка' });
@@ -62,7 +68,13 @@ module.exports.dislikeCard = (req, res) => {
     req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true })
-    .then()
+    .then((card) => {
+      if (card) {
+        return res.send(card);
+      }
+
+      res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные для постановки/снятии лайка' });
