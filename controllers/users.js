@@ -30,7 +30,8 @@ module.exports.getUser = (req, res) => {
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
 
-  User.create({ name, about, avatar })
+  if (name && about && avatar) {
+    User.create({ name, about, avatar })
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -39,6 +40,9 @@ module.exports.createUser = (req, res) => {
 
       res.status(ERROR_DEFAULT).send({ message: 'Что-то пошло не так...' });
     });
+  }
+
+  return res.status(ERROR_CODE).send({ message: 'Не все обязательные поля заполнены' });
 }
 
 module.exports.patchUser = (req, res) => {

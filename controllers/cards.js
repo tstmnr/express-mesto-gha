@@ -13,7 +13,8 @@ module.exports.createCard= (req, res) => {
   const { name, link } = req.body;
   const owner = req.user._id;
 
-  Card.create({ name, link, owner })
+  if (name && link) {
+    Card.create({ name, link, owner })
     .then((card) => {
       if (card) {
         return res.send(card);
@@ -28,6 +29,9 @@ module.exports.createCard= (req, res) => {
 
       res.status(ERROR_DEFAULT).send({ message: 'Что-то пошло не так...' });
     });
+  }
+
+  return res.status(ERROR_CODE).send({ message: 'Не все обязательные поля заполнены' });
 }
 
 module.exports.deleteCard = (req, res) => {
