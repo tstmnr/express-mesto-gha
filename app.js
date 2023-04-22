@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/user')
-const cardRouter = require('./routes/card')
+const cardRouter = require('./routes/card');
+const ERROR_NOT_FOUND = 404;
 
 const app = express();
 
@@ -26,6 +27,10 @@ app.use((req, res, next) => {
 app.use(userRouter);
 
 app.use(cardRouter);
+
+app.all('*', (req, res) => {
+  res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемая страница не найдена' });
+});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`)

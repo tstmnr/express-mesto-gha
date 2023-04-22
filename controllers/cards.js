@@ -19,7 +19,7 @@ module.exports.createCard= (req, res) => {
         return res.send(card);
       }
 
-      res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
+      res.status(ERROR_NOT_FOUND).send({ message: 'Карточка не создана' });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -58,7 +58,7 @@ module.exports.likeCard = (req, res) => {
         return res.send(card);
       }
 
-      res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
+      res.status(ERROR_NOT_FOUND).send({ message: 'Карточка не найдена' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -79,7 +79,7 @@ module.exports.dislikeCard = (req, res) => {
         return res.send(card);
       }
 
-      res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
+      res.status(ERROR_NOT_FOUND).send({ message: 'Карточка не найдена' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
