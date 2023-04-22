@@ -5,7 +5,7 @@ const ERROR_DEFAULT = 500;
 
 module.exports.getUsers = (req, res) => {
   User.find({})
-    .then((users) => res.send(users))
+    .then((users) => res.status(200).send({ data: users }))
     .catch(() => res.status(ERROR_DEFAULT).send({ message: 'Что-то пошло не так...' }));
 }
 
@@ -13,7 +13,7 @@ module.exports.getUser = (req, res) => {
   User.findById(req.params.userId)
     .then((user) => {
       if (user) {
-        return res.send(user);
+        return res.status(200).send({ data: user });
       }
 
       res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден' });
@@ -32,7 +32,7 @@ module.exports.createUser = (req, res) => {
 
   if (name && about && avatar) {
     User.create({ name, about, avatar })
-    .then((user) => res.send(user))
+    .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании пользователя' });
@@ -51,7 +51,7 @@ module.exports.patchUser = (req, res) => {
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (user) {
-        return res.send(user);
+        return res.status(200).send({ data: user });
       }
 
       res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
@@ -71,7 +71,7 @@ module.exports.patchUserAvatar = (req, res) => {
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => {
       if (user) {
-        return res.send(user);
+        return res.status(200).send({ data: user });
       }
 
       res.status(ERROR_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });

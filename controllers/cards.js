@@ -5,7 +5,7 @@ const ERROR_DEFAULT = 500;
 
 module.exports.getCards = (req, res) => {
   Card.find({})
-    .then((cards) => res.send(cards))
+    .then((cards) => res.status(200).send({ data: cards }))
     .catch(() => res.status(ERROR_DEFAULT).send({ message: 'Что-то пошло не так...' }));
 }
 
@@ -17,7 +17,7 @@ module.exports.createCard= (req, res) => {
     Card.create({ name, link, owner })
     .then((card) => {
       if (card) {
-        return res.send(card);
+        return res.status(200).send({ data: card });
       }
 
       res.status(ERROR_NOT_FOUND).send({ message: 'Карточка не создана' });
@@ -38,7 +38,7 @@ module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (card) {
-        return res.send(card);
+        return res.status(200).send({ data: card });
       }
 
       res.status(ERROR_NOT_FOUND).send({ message: 'Карточка с указанным _id не найдена' });
@@ -59,7 +59,7 @@ module.exports.likeCard = (req, res) => {
     { new: true })
     .then((card) => {
       if (card) {
-        return res.send(card);
+        return res.status(200).send({ data: card });
       }
 
       res.status(ERROR_NOT_FOUND).send({ message: 'Карточка не найдена' });
@@ -80,7 +80,7 @@ module.exports.dislikeCard = (req, res) => {
     { new: true })
     .then((card) => {
       if (card) {
-        return res.send(card);
+        return res.status(200).send({ data: card });
       }
 
       res.status(ERROR_NOT_FOUND).send({ message: 'Карточка не найдена' });
