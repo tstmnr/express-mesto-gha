@@ -30,19 +30,15 @@ module.exports.getUser = (req, res) => {
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
 
-  if (name && about && avatar) {
-    User.create({ name, about, avatar })
-    .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании пользователя' });
-      }
+  User.create({ name, about, avatar })
+  .then((user) => res.status(200).send({ data: user }))
+  .catch((err) => {
+    if (err.name === 'ValidationError') {
+      return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании пользователя' });
+    }
 
-      res.status(ERROR_DEFAULT).send({ message: 'Что-то пошло не так...' });
-    });
-  }
-
-  return res.status(ERROR_CODE).send({ message: 'Не все обязательные поля заполнены' });
+    res.status(ERROR_DEFAULT).send({ message: 'Что-то пошло не так...' });
+  });
 }
 
 module.exports.patchUser = (req, res) => {

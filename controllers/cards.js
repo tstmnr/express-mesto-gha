@@ -13,25 +13,15 @@ module.exports.createCard= (req, res) => {
   const { name, link } = req.body;
   const owner = req.user._id;
 
-  if (name && link) {
-    Card.create({ name, link, owner })
-    .then((card) => {
-      if (card) {
-        return res.status(200).send({ data: card });
-      }
+  Card.create({ name, link, owner })
+  .then((card) => res.status(200).send({ data: card }))
+  .catch((err) => {
+    if (err.name === 'ValidationError') {
+      return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании карточки' });
+    }
 
-      res.status(ERROR_NOT_FOUND).send({ message: 'Карточка не создана' });
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании карточки' });
-      }
-
-      res.status(ERROR_DEFAULT).send({ message: 'Что-то пошло не так...' });
-    });
-  }
-
-  return res.status(ERROR_CODE).send({ message: 'Не все обязательные поля заполнены' });
+    res.status(ERROR_DEFAULT).send({ message: 'Что-то пошло не так...' });
+  });
 }
 
 module.exports.deleteCard = (req, res) => {

@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const userRouter = require('./routes/user')
+const userRouter = require('./routes/user');
 const cardRouter = require('./routes/card');
 const ERROR_NOT_FOUND = 404;
 
