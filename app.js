@@ -10,8 +10,7 @@ const userRouter = require('./routes/user');
 const cardRouter = require('./routes/card');
 const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
-
-const ERROR_NOT_FOUND = 404;
+const NotFoundError = require('./errors/NotFoundError');
 
 const app = express();
 
@@ -33,12 +32,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(userRouter, auth);
-app.use(cardRouter, auth);
+app.use('/users', userRouter, auth);
+app.use('/cards', cardRouter, auth);
 app.post('/signin', login);
 app.post('/signup', createUser);
-app.all('*', (req, res) => {
-  res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемая страница не найдена' });
+app.all('*', (req, res, next) => {
+  next(new NotFoundError('Страница не существует'));
 });
 
 app.use(celebrateErrors());

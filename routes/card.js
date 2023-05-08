@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const { Router } = require('express');
 const { celebrate, Joi } = require('celebrate');
 
@@ -7,28 +8,28 @@ const {
 } = require('../controllers/cards');
 const RegExHttp = require('../utils/RegEx');
 
-cardRouter.get('/cards', getCards);
+cardRouter.get('', getCards);
 
-cardRouter.post('/cards', celebrate({
+cardRouter.post('', celebrate({
   body: Joi.object({
     name: Joi.string().min(2).max(30).required(),
     link: Joi.string().pattern(RegExHttp).required(),
   }),
 }), createCard);
 
-cardRouter.delete('/cards/:cardId', celebrate({
+cardRouter.delete('/:cardId', celebrate({
   params: Joi.object({
     cardId: Joi.string().length(24).hex().required(),
   }),
 }), deleteCard);
 
-cardRouter.put('/cards/:cardId/likes', celebrate({
+cardRouter.put('/:cardId/likes', celebrate({
   params: Joi.object({
     cardId: Joi.string().length(24).hex().required(),
   }),
 }), likeCard);
 
-cardRouter.delete('/cards/:cardId/likes', celebrate({
+cardRouter.delete('/:cardId/likes', celebrate({
   params: Joi.object({
     cardId: Joi.string().length(24).hex().required(),
   }),

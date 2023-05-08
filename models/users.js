@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const validator = require('validator');
@@ -34,6 +35,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Поле "Пароль" должно быть заполнено'],
+    select: false,
   },
 });
 
