@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const userRouter = require('./routes/user');
 const cardRouter = require('./routes/card');
 const auth = require('./middlewares/auth');
+const errors = require('./middlewares/errors');
 const { login, createUser } = require('./controllers/users');
 const NotFoundError = require('./errors/NotFoundError');
 
@@ -41,6 +42,7 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(celebrateErrors());
+app.use(errors);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
