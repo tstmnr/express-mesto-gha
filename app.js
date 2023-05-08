@@ -1,10 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const celebrateErrors = require('celebrate').errors;
-const helmet = require('helmet')
+const helmet = require('helmet');
+const mongoose = require('mongoose');
 
+const bodyParser = require('body-parser');
 const userRouter = require('./routes/user');
 const cardRouter = require('./routes/card');
 const auth = require('./middlewares/auth');
