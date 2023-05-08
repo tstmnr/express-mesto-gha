@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/users');
 
 const ERROR_CODE = 400;
+const ERROR_CODE_401 = 400;
 const ERROR_NOT_FOUND = 404;
 const ERROR_DEFAULT = 500;
 
@@ -15,7 +16,7 @@ module.exports.login = (req, res) => {
       const token = jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' });
       res.send({ token });
     })
-    .catch(() => res.status(ERROR_DEFAULT).send({ message: 'Что-то пошло не так...' }));
+    .catch(() => res.status(ERROR_CODE_401).send({ message: 'Что-то пошло не так...' }));
 };
 
 module.exports.getUsers = (req, res) => {
